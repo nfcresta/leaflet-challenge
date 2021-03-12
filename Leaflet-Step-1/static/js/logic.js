@@ -34,14 +34,16 @@ d3.json(dataLink, function(response) {
             return "maroon";
         case depth > 40:
             return "purple";
-        case depth > 20:
+        case depth > 30:
             return "blue";
-        case depth > 10:
+        case depth > 20:
             return "red";
-        case depth > 1:
+        case depth > 10:
             return "orange";
-        case depth < 1:
+        case depth > 1:
             return "yellow";
+        default:
+            return "white"
         }
     }
 
@@ -55,31 +57,23 @@ d3.json(dataLink, function(response) {
           .addTo(myMap);
     }
 
-    // set up the legend
+    // Set Up Legend
     var legend = L.control({ position: "bottomleft" });
     legend.onAdd = function() {
-        var div = L
-          .DomUtil
-          .create("div", "info legend");
-    
-        var grades = [0, 1, 2, 3, 4, 5];
-        var colors = [
-          "#98ee00",
-          "#d4ee00",
-          "#eecc00",
-          "#ee9c00",
-          "#ea822c",
-          "#ea2c2c"
-        ];
-    
-    
-        for (var i = 0; i < grades.length; i++) {
-          div.innerHTML += "<i style='background: " + colors[i] + "'></i> " +
-            grades[i] + (grades[i + 1] ? "&ndash;" + grades[i + 1] + "<br>" : "+");
+        var div = L.DomUtil.create("div", "info legend"), 
+        magnitudeLevels = [0, 1, 10, 20, 30, 40, 50];
+
+        div.innerHTML += "<h3>Depth</h3>"
+
+        for (var i = 0; i < magnitudeLevels.length; i++) {
+            div.innerHTML +=
+                '<i style="background: ' + chooseColor(magnitudeLevels[i]+1) + '"></i> ' +
+                magnitudeLevels[i] + (magnitudeLevels[i + 1] ? '&ndash;' + magnitudeLevels[i + 1] + '<br>' : '+');
         }
         return div;
-      };
-        legend.addTo(myMap);
+    };
+    // Add Legend to the Map
+    legend.addTo(myMap);
 });
 
 
