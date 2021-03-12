@@ -58,7 +58,7 @@ d3.json(dataLink, function(response) {
 
         for (var i = 0; i < magnitudeLevels.length; i++) {
             div.innerHTML +=
-                '<i style="background: ' + chooseColor(magnitudeLevels[i]+1) + '"></i> ' +
+                '<i style="background: ' + chooseColor(magnitudeLevels[i]+1) + ' "></i> ' +
                 magnitudeLevels[i] + (magnitudeLevels[i + 1] ? '&ndash;' + magnitudeLevels[i + 1] + '<br>' : '+');
         }
         return div;
