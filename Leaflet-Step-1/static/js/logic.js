@@ -17,7 +17,6 @@ L.tileLayer("https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_toke
 
 // create circles
 var dataLink = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/1.0_week.geojson";
-var geojson;
 
 d3.json(dataLink, function(response) {
     console.log(response);
