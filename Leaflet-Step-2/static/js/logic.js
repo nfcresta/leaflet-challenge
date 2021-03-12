@@ -20,15 +20,15 @@ d3.json(dataLink, function(response) {
     // Function to Determine Color of Marker Based on the Magnitude of the Earthquake
     function chooseColor(depth) {
         switch (true) {
-        case depth > 50:
+        case depth > 100:
             return "maroon";
-        case depth > 40:
+        case depth > 80:
             return "purple";
-        case depth > 30:
+        case depth > 60:
             return "blue";
-        case depth > 20:
+        case depth > 40:
             return "red";
-        case depth > 10:
+        case depth > 20:
             return "orange";
         case depth > 1:
             return "yellow";
@@ -52,7 +52,7 @@ d3.json(dataLink, function(response) {
     var legend = L.control({ position: "bottomleft" });
     legend.onAdd = function() {
         var div = L.DomUtil.create("div", "info legend"), 
-        magnitudeLevels = [0, 1, 10, 20, 30, 40, 50];
+        magnitudeLevels = [0, 1, 20, 40, 60, 80, 100];
 
         div.innerHTML += "<h3>Depth</h3>"
 
