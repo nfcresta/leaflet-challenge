@@ -45,6 +45,24 @@ d3.json(dataLink, function(response) {
         .addTo(earthQuakeMarkersLayer)
         earthQuakeMarkersLayer.addTo(myMap);
     }
+
+    // Set Up Legend
+    var legend = L.control({ position: "bottomleft" });
+    legend.onAdd = function() {
+        var div = L.DomUtil.create("div", "info legend"), 
+        magnitudeLevels = [0, 10, 20, 30, 40, 50];
+
+        div.innerHTML += "<h3>Depth</h3>"
+
+        for (var i = 0; i < magnitudeLevels.length; i++) {
+            div.innerHTML +=
+                '<i style="background: ' + chooseColor(magnitudeLevels[i] + 1) + '"></i> ' +
+                magnitudeLevels[i] + (magnitudeLevels[i + 1] ? '&ndash;' + magnitudeLevels[i + 1] + '<br>' : '+');
+        }
+        return div;
+    };
+    // Add Legend to the Map
+    legend.addTo(myMap);
 })
 console.log(earthQuakeMarkersLayer);
 
@@ -107,30 +125,3 @@ var myMap = L.map("map-id", {
 // create layer control
 L.control.layers(baseMaps, overLayMaps).addTo(myMap);
 
-// create legend
-var legend = L.control({
-    position: "bottomleft"
-  });
-
-  legend.onAdd = function() {
-    var div = L
-      .DomUtil
-      .create("div", "info legend");
-
-    var grades = [0, 1, 10, 30, 40, 50];
-    var colors = [
-      "yellow",
-      "orange",
-      "red",
-      "blue",
-      "purple",
-      "maroon"
-    ];
-
-    for (var i = 0; i < grades.length; i++) {
-      div.innerHTML += "<i style='background: " + colors[i] + "'></i> " +
-        grades[i] + (grades[i + 1] ? "&ndash;" + grades[i + 1] + "<br>" : "+");
-    }
-    return div;
-  };
-  legend.addTo(myMap);
