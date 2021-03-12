@@ -24,14 +24,16 @@ d3.json(dataLink, function(response) {
             return "maroon";
         case depth > 40:
             return "purple";
-        case depth > 20:
+        case depth > 30:
             return "blue";
-        case depth > 10:
+        case depth > 20:
             return "red";
-        case depth > 1:
+        case depth > 10:
             return "orange";
-        case depth < 1:
+        case depth > 1:
             return "yellow";
+        default:
+            return "white"
         }
     }
     
@@ -50,13 +52,13 @@ d3.json(dataLink, function(response) {
     var legend = L.control({ position: "bottomleft" });
     legend.onAdd = function() {
         var div = L.DomUtil.create("div", "info legend"), 
-        magnitudeLevels = [0, 10, 20, 30, 40, 50];
+        magnitudeLevels = [0, 1, 10, 20, 30, 40, 50];
 
         div.innerHTML += "<h3>Depth</h3>"
 
         for (var i = 0; i < magnitudeLevels.length; i++) {
             div.innerHTML +=
-                '<i style="background: ' + chooseColor(magnitudeLevels[i] + 1) + '"></i> ' +
+                '<i style="background: ' + chooseColor(magnitudeLevels[i]+1) + '"></i> ' +
                 magnitudeLevels[i] + (magnitudeLevels[i + 1] ? '&ndash;' + magnitudeLevels[i + 1] + '<br>' : '+');
         }
         return div;
