@@ -1,11 +1,12 @@
-
+// API links
 var dataLink = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/1.0_week.geojson";
 var platesLink = "https://raw.githubusercontent.com/fraxen/tectonicplates/master/GeoJSON/PB2002_boundaries.json";
 
+// create base layers
+var earthQuakeMarkersLayer = new L.layerGroup();
+var tectonicPlateLineLayer = new L.layerGroup();
 
 // add earthquake circles to map
-var earthquakeMarkers = [];
-
 d3.json(dataLink, function(response) {  
     console.log(response);
     
@@ -35,31 +36,30 @@ d3.json(dataLink, function(response) {
     }
     
     for (var i=0; i < locations.length; i++) {
-        earthquakeMarkers.push(L.circle([locations[i].geometry.coordinates[1], locations[i].geometry.coordinates[0]], {
+        L.circle([locations[i].geometry.coordinates[1], locations[i].geometry.coordinates[0]], {
             color: "white",
             fillColor: chooseColor(locations[i].geometry.coordinates[2]),
             radius: markerSize(locations[i].properties.mag),
             fillOpacity: 0.8
         }).bindPopup(`<strong>${locations[i].properties.place}</strong><hr>Magnitude: ${locations[i].properties.mag}<br>Depth: ${locations[i].geometry.coordinates[2]}`)
-        );
+        .addTo(earthQuakeMarkersLayer)
+        earthQuakeMarkersLayer.addTo(myMap);
     }
-});
-console.log(earthquakeMarkers);
+})
+console.log(earthQuakeMarkersLayer);
+
 
 // add tectonic plates lines to map
-var tectonicPlateLine = [];
-
 d3.json(platesLink, function(response) { 
-    tectonicPlateLine.push(L.geoJson(response, {
-        color: "#DC143C",
+    L.geoJson(response, {
+        color: "orange",
         weight: 2
-    }))
+    }).addTo(tectonicPlateLineLayer)
+       tectonicPlateLineLayer.addTo(myMap);
 });
-console.log(tectonicPlateLine);
+console.log(tectonicPlateLineLayer);
 
-// create base layers
-var earthQuakeMarkersLayer = L.layerGroup(earthquakeMarkers);
-var tectonicPlateLineLayer = L.layerGroup(tectonicPlateLine);
+
 
 // Define Variables for Tile Layers
 var satelliteMap = L.tileLayer("https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}", {
@@ -103,8 +103,6 @@ var myMap = L.map("map-id", {
     layers: [satelliteMap, earthQuakeMarkersLayer]
 });
 
+
 // create layer control
 L.control.layers(baseMaps, overLayMaps).addTo(myMap);
-
-
-
