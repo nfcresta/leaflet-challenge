@@ -1,3 +1,4 @@
+/* Create body and map formats */
 body {
   padding: 0;
   margin: 0;
@@ -9,7 +10,7 @@ html {
   height: 100%;
 }
 
-/* Set Legend Style */
+/* Create the legend style and format */
 .info {
   padding: 1px 10px;
   background: #E5E7E9;
